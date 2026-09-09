@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans KR', sans-serif; }
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 100px 0;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 40px;
+    }
+    .feature-card {
+      padding: 30px;
+      border-radius: 15px;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      transition: transform 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    .pricing-card {
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 40px;
+      margin-bottom: 30px;
+      transition: all 0.3s;
+    }
+    .pricing-card.featured {
+      border-color: #667eea;
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    .pricing-card h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .price {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <div class="container">
+      <h1>🚀 럭스파인드</h1>
+      <p>여행사 100곳에 AI 직원을 제공하는 SaaS 플랫폼</p>
+      <p class="lead">24시간 일하는 AI 직원 + 자동 블로그 마케팅</p>
+      <a href="/auth/super-admin/login" class="btn btn-light btn-lg me-2">슈퍼 관리자</a>
+      <a href="/auth/agency-admin/login" class="btn btn-outline-light btn-lg">여행사 관리자</a>
+    </div>
+  </div>
+  
+  <div class="container my-5">
+    <h2 class="text-center mb-5">핵심 기능</h2>
+    
+    <div class="row">
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>🤖 AI 직원</h3>
+          <p>각 여행사별 독립 LoRA 파인튜닝으로 회사만의 AI 직원 보유</p>
+          <ul>
+            <li>24시간 고객 상담</li>
+            <li>자동 견적서 생성</li>
+            <li>예약 자동 처리</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>📝 블로그 자동화</h3>
+          <p>매일 자동으로 SEO 최적화된 여행 블로그 생성</p>
+          <ul>
+            <li>AI 텍스트 생성</li>
+            <li>AI 이미지 생성</li>
+            <li>자동 포스팅</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="feature-card">
+          <h3>🌐 완전 자동화</h3>
+          <p>독립 도메인으로 완전 자동화된 웹사이트 운영</p>
+          <ul>
+            <li>커스텀 도메인</li>
+            <li>자동 SSL</li>
+            <li>반응형 디자인</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-light py-5">
+    <div class="container">
+      <h2 class="text-center mb-5">구독 플랜</h2>
+      
+      <div class="row">
+        <div class="col-md-4">
+          <div class="pricing-card">
+            <h3>스타터</h3>
+            <div class="price">₩50,000<small>/월</small></div>
+            <ul class="mt-4">
+              <li>AI 챗봇 월 1,000건</li>
+              <li>블로그 월 10개</li>
+              <li>기본 템플릿</li>
+              <li>커스텀 도메인 1개</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="pricing-card featured">
+            <div class="badge bg-primary mb-2">추천</div>
+            <h3>프로</h3>
+            <div class="price">₩150,000<small>/월</small></div>
+            <ul class="mt-4">
+              <li>AI 챗봇 월 5,000건</li>
+              <li>블로그 월 30개</li>
+              <li>프리미엄 템플릿</li>
+              <li>커스텀 도메인 3개</li>
+              <li>견적/예약 시스템</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="pricing-card">
+            <h3>엔터프라이즈</h3>
+            <div class="price">₩300,000<small>/월</small></div>
+            <ul class="mt-4">
+              <li>AI 챗봇 무제한</li>
+              <li>블로그 무제한</li>
+              <li>완전 커스터마이징</li>
+              <li>무제한 도메인</li>
+              <li>전담 기술 지원</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container my-5 text-center">
+    <h2>지금 시작하세요</h2>
+    <p class="lead">여행사 100곳이 함께하는 럭스파인드 플랫폼</p>
+    <a href="/auth/super-admin/login" class="btn btn-primary btn-lg">관리자 로그인</a>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

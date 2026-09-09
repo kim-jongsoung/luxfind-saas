@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>여행사 관리 - 럭스파인드</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
+</head>
+<body>
+  <%- include('../partials/super-admin-navbar', { admin }) %>
+  
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>여행사 관리</h1>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAgencyModal">
+        + 여행사 추가
+      </button>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>회사명</th>
+              <th>구독 플랜</th>
+              <th>월 요금</th>
+              <th>상태</th>
+              <th>AI 사용량</th>
+              <th>블로그</th>
+              <th>관리자 수</th>
+              <th>등록일</th>
+              <th>작업</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% agencies.forEach(agency => { %>
+              <tr>
+                <td><strong><%= agency.company_name %></strong></td>
+                <td>
+                  <% if (agency.subscription_plan === 'starter') { %>
+                    <span class="badge bg-secondary">스타터</span>
+                  <% } else if (agency.subscription_plan === 'pro') { %>
+                    <span class="badge bg-primary">프로</span>
+                  <% } else { %>
+                    <span class="badge bg-success">엔터프라이즈</span>
+                  <% } %>
+                </td>
+                <td>₩<%= agency.monthly_fee.toLocaleString() %></td>
+                <td>
+                  <% if (agency.subscription_status === 'active') { %>
+                    <span class="badge bg-success">활성</span>
+                  <% } else if (agency.subscription_status === 'suspended') { %>
+                    <span class="badge bg-warning">중지</span>
+                  <% } else { %>
+                    <span class="badge bg-danger">취소</span>
+                  <% } %>
+                </td>
+                <td><%= agency.ai_chat_used %> / <%= agency.ai_chat_quota %></td>
+                <td><%= agency.blog_used %> / <%= agency.blog_quota %></td>
+                <td><%= agency.admin_count %>명</td>
+                <td><%= new Date(agency.created_at).toLocaleDateString('ko-KR') %></td>
+                <td>
+                  <% if (agency.subscription_status === 'active') { %>
+                    <button class="btn btn-sm btn-warning" onclick="suspendAgency('<%= agency.agency_id %>')">중지</button>
+                  <% } else { %>
+                    <button class="btn btn-sm btn-success" onclick="activateAgency('<%= agency.agency_id %>')">활성화</button>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="createAgencyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">새 여행사 추가</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form method="POST" action="/super-admin/agencies/create">
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">회사명 *</label>
+                <input type="text" name="company_name" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">사업자번호</label>
+                <input type="text" name="business_number" class="form-control">
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">담당자명 *</label>
+                <input type="text" name="contact_name" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">이메일 *</label>
+                <input type="email" name="contact_email" class="form-control" required>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">전화번호</label>
+                <input type="tel" name="contact_phone" class="form-control">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">구독 플랜 *</label>
+                <select name="subscription_plan" class="form-select" required>
+                  <option value="starter">스타터 (₩50,000/월)</option>
+                  <option value="pro" selected>프로 (₩150,000/월)</option>
+                  <option value="enterprise">엔터프라이즈 (₩300,000/월)</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">도메인 *</label>
+              <input type="text" name="primary_domain" class="form-control" placeholder="예: vasco-tour.com" required>
+            </div>
+            
+            <hr>
+            <h6>관리자 계정</h6>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">아이디 *</label>
+                <input type="text" name="username" class="form-control" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">비밀번호 *</label>
+                <input type="password" name="password" class="form-control" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="submit" class="btn btn-primary">추가</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function suspendAgency(id) {
+      if (confirm('이 여행사를 일시 중지하시겠습니까?')) {
+        fetch(`/super-admin/agencies/${id}/suspend`, { method: 'POST' })
+          .then(() => location.reload());
+      }
+    }
+    
+    function activateAgency(id) {
+      if (confirm('이 여행사를 활성화하시겠습니까?')) {
+        fetch(`/super-admin/agencies/${id}/activate`, { method: 'POST' })
+          .then(() => location.reload());
+      }
+    }
+  </script>
+</body>
+</html>
